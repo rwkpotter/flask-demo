@@ -14,8 +14,9 @@ import quandl
 import numpy as np
 import pandas as pd
 import bokeh
-from bokeh.plotting import figure
+from bokeh.plotting import figure, output_file, show
 from bokeh.io import show
+from bokeh.charts import TimeSeries, output_file, show
 from bokeh.embed import components
 bv = bokeh.__version__
 
@@ -44,36 +45,47 @@ def graph():
 	end_date='2016-08-31'
 
 	data = quandl.get("WIKI/"+ticker, start_date=start_date, end_date=end_date, column_index=4)
-	df = pd.DataFrame(data)
-
-	return data.to_string()
-
-
-	# p = figure(plot_width=450, plot_height=450, title=ticker, x_axis_type="datetime")
-	# p.line(data.Date, data.Close, line_width=2, line_color="#FB8072",legend='Closing price')
-	# p.legend.orientation = "top_left"
-		
-	# # axis labels
-	# p.xaxis.axis_label = "Date"
-	# p.xaxis.axis_label_text_font_style = 'bold'
-	# p.xaxis.axis_label_text_font_size = '16pt'
-	# p.xaxis.major_label_orientation = np.pi/4
-	# p.xaxis.major_label_text_font_size = '14pt'
-	# p.xaxis.bounds = (df.Date.iloc[-1],df.Date.iloc[0])
-	# p.yaxis.axis_label = "Price ($)"
-	# p.yaxis.axis_label_text_font_style = 'bold'
-	# p.yaxis.axis_label_text_font_size = '16pt'
-	# p.yaxis.major_label_text_font_size = '12pt'
+	#df = pd.DataFrame(data)
+	#df=df.rename(columns = {'one':'bob'}, inplace = True)
 	
-	# # render graph template
-	# # ------------------- ------------------------|
-	# script, div = components(p)
-	# return render_template('graph.html', bv=bv, ticker=ticker,
-	# 						script=script, div=div)
+	# r = requests.get(req)
+	# cols = r.json()['dataset']['column_names'][0:5]
+	# df = pd.DataFrame(np.array(r.json()['dataset']['data'])[:,0:5],columns=cols)
+	# df.Date = pd.to_datetime(df.Date)
+	# df[['Open','High','Low','Close']] = df[['Open','High','Low','Close']].astype(float)
 
 
-#@app.route('/graph', methods=['GET','POST'])
-#def graph:
+	#return df.to_string()
+
+
+	p = figure(plot_width=450, plot_height=450, title=ticker, x_axis_type="datetime")
+	# p.line(data, line_width=2, line_color="#FB8072",legend='Closing price')
+	# #p = bokeh.charts.Line(data, x="", y="Close", color='firebrick')
+
+	# #data = dict(data=float(ticker['Date']), Date=ticker['Close'])
+
+	# #p = TimeSeries(data, index='Date', title="APPL", ylabel='Stock Prices')
+
+	# #show(p)
+	
+	# # # # axis labels
+	# # p.xaxis.axis_label = "Date"
+	# # p.xaxis.axis_label_text_font_style = 'bold'
+	# # p.xaxis.axis_label_text_font_size = '16pt'
+	# # #p.xaxis.major_label_orientation = np.pi/4
+	# # p.xaxis.major_label_text_font_size = '14pt'
+	# # #p.xaxis.bounds = (df.Date.iloc[-1],df.Date.iloc[0])
+	# # p.yaxis.axis_label = "Price ($)"
+	# # p.yaxis.axis_label_text_font_style = 'bold'
+	# # p.yaxis.axis_label_text_font_size = '16pt'
+	# # p.yaxis.major_label_text_font_size = '12pt'
+	
+	# # # render graph template
+	# # # ------------------- ------------------------|
+	script, div = components(p)
+	 # return show(p) #render_template('graph.html', bv=bv, ticker=ticker,
+	# # 				#		script=script, div=div)
+	return render_template ('graph.html', plot=p, script=script, div=div, data=data)
 
 
 if __name__ == '__main__':
