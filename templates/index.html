@@ -8,29 +8,47 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-		<div class=page>
-  			<h1>What stock do you want? Again. Is this STILL good!?</h1>
+		<div style="margin-left:50px">
+  			
+  			<h1 style="margin-bottom:25px">August 2016 Closing Stock Prices</h1>
 			
-			<div class=metanav>
-
-			<h4>Enter the stock ticker</h4>
-			
-			<form id='input' method='post' action="/graph">	
-	  			<p>
-					Ticker symbol: <input type='text' name='ticker' />
-	  			</p>
-	  			<!--<p>
-	  				<input type="checkbox" name='feat1' value='Open'>Opening price<br>
-					<input type="checkbox" name='feat2' value='Close'>Closing price<br>
-					<input type="checkbox" name='feat3' value='Range'>Range (High/Low)<br>
-	  			</p>-->
-	    			<input type="submit" value="Submit">
-	  			</p> 
-	  		</form>
-			</div>
 			<div>
-			  			<p><i>See <a href="https://www.quandl.com/data/WIKI">www.quandl.com/data/WIKI</a></i> for database description</p>
-			  </div>
+
+			<h4>Enter company's stock ticker</h4>
+
+			<div>
+				{%with messages = get_flashed_messages()%}
+				{% if messages%}
+				<ul style="list-style-type:none">
+					{% for message in messages%}
+					<li style="color:red">{{message}}</li>
+					{% endfor%}
+				</ul>
+				{% endif%}
+				{%endwith%}
+			</div>
+
+			<div>
+				<form id='input' method='post' action="/graph">	
+		  			<p>
+						Ticker symbol: <input type='text' name='ticker' />
+		  			</p>
+		  		
+		    			<input style="margin-top:10px" type="submit" value="Submit">
+		  			</p> 
+		  		</form>
+			</div>
+
+
+			<div style="margin-top:25px">
+			  	<p><i>See <a href="https://www.quandl.com/data/WIKI">www.quandl.com/data/WIKI</a></i> for database description</p>
+			</div>
+
+
+			<div style="margin-top:25px">
+				<small> Designed by Ross Potter </small>
+			</div>
+			
 		</div>
 	</body>
 </html>

@@ -36,56 +36,54 @@ def main():
 @app.route('/graph',methods=['POST'])
 def graph():
 	ticker=request.form['ticker'].upper()
-	req = 'https://www.quandl.com/api/v3/datasets/WIKI/'
-	req = '%s%s.json?&collapse=weekly' % (req,ticker)
 	
-	quandl.ApiConfig.api_key = '9UYdbeyqFgisovBywzub'
-
 	start_date='2016-08-01'
 	end_date='2016-08-31'
 
-	data = quandl.get("WIKI/"+ticker, start_date=start_date, end_date=end_date, column_index=4)
+	req = 'https://www.quandl.com/api/v3/datasets/WIKI/'
+	req = '%s%s.json?start_date=%s&end_date=%s&api_key=9UYdbeyqFgisovBywzub' % (req,ticker,start_date,end_date)
+	
+	#quandl.ApiConfig.api_key = '9UYdbeyqFgisovBywzub'
+
+	
+
+	#data = quandl.get("WIKI/"+ticker, start_date=start_date, end_date=end_date, column_index=4)
 	#df = pd.DataFrame(data)
 	#df=df.rename(columns = {'one':'bob'}, inplace = True)
 	
-	# r = requests.get(req)
-	# cols = r.json()['dataset']['column_names'][0:5]
-	# df = pd.DataFrame(np.array(r.json()['dataset']['data'])[:,0:5],columns=cols)
-	# df.Date = pd.to_datetime(df.Date)
-	# df[['Open','High','Low','Close']] = df[['Open','High','Low','Close']].astype(float)
+	r = requests.get(req)
+	if "quandl_error" in r.json():
+		flash("Please enter a valid (Quand) code")
+		return (redirect(url_for('main')))
+		
+	cols = r.json()['dataset']['column_names'][0:5]
+	df = pd.DataFrame(np.array(r.json()['dataset']['data'])[:,0:5],columns=cols)
+	df.Date = pd.to_datetime(df.Date)
+	df[['Open','High','Low','Close']] = df[['Open','High','Low','Close']].astype(float)
 
 
 	#return df.to_string()
 
 
 	p = figure(plot_width=450, plot_height=450, title=ticker, x_axis_type="datetime")
-	# p.line(data, line_width=2, line_color="#FB8072",legend='Closing price')
+	p.line(df.Date, df.Close, line_width=3, line_color="Turquoise",legend='Closing price')
 	# #p = bokeh.charts.Line(data, x="", y="Close", color='firebrick')
 
-	# #data = dict(data=float(ticker['Date']), Date=ticker['Close'])
-
-	# #p = TimeSeries(data, index='Date', title="APPL", ylabel='Stock Prices')
-
-	# #show(p)
 	
-	# # # # axis labels
-	# # p.xaxis.axis_label = "Date"
-	# # p.xaxis.axis_label_text_font_style = 'bold'
-	# # p.xaxis.axis_label_text_font_size = '16pt'
-	# # #p.xaxis.major_label_orientation = np.pi/4
-	# # p.xaxis.major_label_text_font_size = '14pt'
-	# # #p.xaxis.bounds = (df.Date.iloc[-1],df.Date.iloc[0])
-	# # p.yaxis.axis_label = "Price ($)"
-	# # p.yaxis.axis_label_text_font_style = 'bold'
-	# # p.yaxis.axis_label_text_font_size = '16pt'
-	# # p.yaxis.major_label_text_font_size = '12pt'
+	#axis labels
+	p.xaxis.axis_label = "Date"
+	p.xaxis.axis_label_text_font_style = 'bold'
+	p.xaxis.axis_label_text_font_size = '16pt'
+	p.yaxis.axis_label = "Closing Price ($)"
+	p.yaxis.axis_label_text_font_style = 'bold'
+	p.yaxis.axis_label_text_font_size = '16pt'
 	
-	# # # render graph template
-	# # # ------------------- ------------------------|
+	
+	# # render graph template
+	# # ------------------- ------------------------|
 	script, div = components(p)
-	 # return show(p) #render_template('graph.html', bv=bv, ticker=ticker,
-	# # 				#		script=script, div=div)
-	return render_template ('graph.html', plot=p, script=script, div=div, data=data)
+	return render_template('graph.html', bv=bv, ticker=ticker, script=script, div=div)
+	# return render_template ('graph.html', plot=p, script=script, div=div, data=data)
 
 
 if __name__ == '__main__':
