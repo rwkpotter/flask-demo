@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Quandl Graph</title>
+		<title>August 2016 Graph</title>
 		<link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_ticker.css')}}'>
 		<link rel="stylesheet" href="//cdn.pydata.org/bokeh/release/bokeh-0.12.1.min.css" type="text/css" />
 		<script type="text/javascript" src="//cdn.pydata.org/bokeh/release/bokeh-0.12.1.min.js"></script>
@@ -10,15 +10,10 @@
 	</head>
 	<body>
 		<div class=page>
-  			<h1>August 2016 closing prices for {{ticker}}</h1>
+  			<h1>August 2016 closing prices for {{name}}</h1>
   			
   			<p><a href="/">Choose another company</a></p>
 			<div align="center">{{div|safe}}</div>
 		</div>
 	</body>
 </html>	
-
-
-<!--
-<link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.0.min.css" type="text/css" />
-    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.0.min.js"></script> -->
