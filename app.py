@@ -22,8 +22,6 @@ bv = bokeh.__version__
 app = Flask(__name__)
 app.secret_key='gfiotgndip54906i43otgklbmff9ewrpijq;nwke9q-EQW0RGPFSDSa'
 
-app.vars={}
-feat = ['Open','Close','Range']
 
 @app.route('/')
 def main():
@@ -45,22 +43,35 @@ def graph():
 	start_date='2016-08-01'
 	end_date='2016-08-31'
 
-	data = quandl.get("WIKI/FB.11", start_date=start_date, end_date=end_date)
+	data = quandl.get("WIKI/"+ticker, start_date=start_date, end_date=end_date, column_index=4)
+	df = pd.DataFrame(data)
 
 	return data.to_string()
-	# r = requests.get(req)
-	# cols = r.json()['dataset']['column_names'][0:5]
-	# df = pd.DataFrame(np.array(r.json()['dataset']['data'])[:,0:5],columns=cols)
-	# df.Date = pd.to_datetime(df.Date)
-	# df[['Open','High','Low','Close']] = df[['Open','High','Low','Close']].astype(float)
-	# if not app.vars['start_year']=='':
-	# 	if df.Date.iloc[-1].year>int(app.vars['start_year']):
-	# 		app.vars['tag'] = '%s, but Quandl record begins in %s' % (app.vars['tag'],df.Date.iloc[-1].year)
-	# app.vars['desc'] = r.json()['dataset']['name'].split(',')[0]
 
-	
 
+	# p = figure(plot_width=450, plot_height=450, title=ticker, x_axis_type="datetime")
+	# p.line(data.Date, data.Close, line_width=2, line_color="#FB8072",legend='Closing price')
+	# p.legend.orientation = "top_left"
+		
+	# # axis labels
+	# p.xaxis.axis_label = "Date"
+	# p.xaxis.axis_label_text_font_style = 'bold'
+	# p.xaxis.axis_label_text_font_size = '16pt'
+	# p.xaxis.major_label_orientation = np.pi/4
+	# p.xaxis.major_label_text_font_size = '14pt'
+	# p.xaxis.bounds = (df.Date.iloc[-1],df.Date.iloc[0])
+	# p.yaxis.axis_label = "Price ($)"
+	# p.yaxis.axis_label_text_font_style = 'bold'
+	# p.yaxis.axis_label_text_font_size = '16pt'
+	# p.yaxis.major_label_text_font_size = '12pt'
 	
+	# # render graph template
+	# # ------------------- ------------------------|
+	# script, div = components(p)
+	# return render_template('graph.html', bv=bv, ticker=ticker,
+	# 						script=script, div=div)
+
+
 #@app.route('/graph', methods=['GET','POST'])
 #def graph:
 
