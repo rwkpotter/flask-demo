@@ -10,7 +10,7 @@ You can analyze the data using pandas and plot using Bokeh. By the end you shoul
 from flask import Flask, render_template, request, redirect, flash, url_for, make_response
 
 import requests
-import quandl
+#import quandl
 import numpy as np
 import pandas as pd
 import bokeh
