@@ -53,7 +53,7 @@ def graph():
 	
 	r = requests.get(req)
 	if "quandl_error" in r.json():
-		flash("Please enter a valid (Quand) code")
+		flash("Please enter a valid ticker code")
 		return (redirect(url_for('main')))
 		
 	cols = r.json()['dataset']['column_names'][0:5]
