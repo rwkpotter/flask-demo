@@ -9,18 +9,28 @@
 	</head>
 	<body>
 		<div class=page>
-  			<h1>What stock do you want? Again. Is this good!?</h1>
+  			<h1>What stock do you want? Again. Is this STILL good!?</h1>
 			
 			<div class=metanav>
 
 			<h4>Enter the stock ticker</h4>
 			
-			<form id='input' method='post' action='index'>	
+			<form id='input' method='post' action="{{ url_for('index')}}">	
 	  			<p>
 					Ticker symbol: <input type='text' name='ticker' />
 	  			</p>
+	  			<p>
+	  				<input type="checkbox" name='feat1' value='Open'>Opening price<br>
+					<input type="checkbox" name='feat2' value='Close'>Closing price<br>
+					<input type="checkbox" name='feat3' value='Range'>Range (High/Low)<br>
+	  			</p>
+	    			<input type="submit" value="Submit">
+	  			</p> 
 	  		</form>
 			</div>
+			<div>
+			  			<p><i>See <a href="https://www.quandl.com/data/WIKI">www.quandl.com/data/WIKI</a></i> for database description</p>
+			  </div>
 		</div>
 	</body>
 </html>
